@@ -30,15 +30,15 @@ int main() {
 	map += L"#..............#";
 	map += L"#..............#";
 	map += L"#..............#";
+	map += L"#..........#...#";
+	map += L"#..........#...#";
 	map += L"#..............#";
 	map += L"#..............#";
 	map += L"#..............#";
 	map += L"#..............#";
 	map += L"#..............#";
 	map += L"#..............#";
-	map += L"#..............#";
-	map += L"#..............#";
-	map += L"#..............#";
+	map += L"#......#########";
 	map += L"#..............#";
 	map += L"#..............#";
 	map += L"################";
@@ -59,10 +59,20 @@ int main() {
 		float fElapsedTime = elapsedTime.count();
 
 		if (GetAsyncKeyState((unsigned short)'A') & 0x8000) {
-			fPlayerAngle -= (0.1f) * fElapsedTime;
+			fPlayerAngle -= (1.6f) * fElapsedTime;
 		}
 		if (GetAsyncKeyState((unsigned short)'D') & 0x8000) {
-			fPlayerAngle += (0.1f) * fElapsedTime;
+			fPlayerAngle += (1.6f) * fElapsedTime;
+		}
+
+		if (GetAsyncKeyState((unsigned short)'W') & 0x8000) {
+			fPlayerXPos += sinf(fPlayerAngle) * 2.5f * fElapsedTime;
+			fPlayerYPos += cosf(fPlayerAngle) * 2.5f * fElapsedTime;
+		}
+
+		if (GetAsyncKeyState((unsigned short)'S') & 0x8000) {
+			fPlayerXPos -= sinf(fPlayerAngle) * 2.5f * fElapsedTime;
+			fPlayerYPos -= cosf(fPlayerAngle) * 2.5f * fElapsedTime;
 		}
 
 
@@ -110,15 +120,23 @@ int main() {
 			else if (fDistanceToWall < fDepth)			nShade = 0x2591;
 			else										nShade = ' ';		// Too far away
 
-			for (int y = 0; y < nScreenHeight; y++) {
-				if (y < nCeiling) {
-					screen[y * nScreenWidth + x] = L' ';
-				}
-				else if (y > nCeiling && y <= nFloor) {
+			for (int y = 0; y < nScreenHeight; y++)
+			{
+				// Each Row
+				if (y <= nCeiling)
+					screen[y * nScreenWidth + x] = ' ';
+				else if (y > nCeiling && y <= nFloor)
 					screen[y * nScreenWidth + x] = nShade;
-				}
-				else {
-					screen[y * nScreenWidth + x] = L' ';
+				else // Floor
+				{
+					// Shade floor based on distance
+					float b = 1.0f - (((float)y - nScreenHeight / 2.0f) / ((float)nScreenHeight / 2.0f));
+					if (b < 0.25)		nShade = '#';
+					else if (b < 0.5)	nShade = 'x';
+					else if (b < 0.75)	nShade = '.';
+					else if (b < 0.9)	nShade = '-';
+					else				nShade = ' ';
+					screen[y * nScreenWidth + x] = nShade;
 				}
 			}
 		}
