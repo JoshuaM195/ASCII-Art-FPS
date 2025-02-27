@@ -59,20 +59,30 @@ int main() {
 		float fElapsedTime = elapsedTime.count();
 
 		if (GetAsyncKeyState((unsigned short)'A') & 0x8000) {
-			fPlayerAngle -= (1.6f) * fElapsedTime;
+			fPlayerAngle -= (1.0f) * fElapsedTime;
 		}
 		if (GetAsyncKeyState((unsigned short)'D') & 0x8000) {
-			fPlayerAngle += (1.6f) * fElapsedTime;
+			fPlayerAngle += (1.0f) * fElapsedTime;
 		}
 
 		if (GetAsyncKeyState((unsigned short)'W') & 0x8000) {
-			fPlayerXPos += sinf(fPlayerAngle) * 2.5f * fElapsedTime;
-			fPlayerYPos += cosf(fPlayerAngle) * 2.5f * fElapsedTime;
+			fPlayerXPos += sinf(fPlayerAngle) * 5.0f * fElapsedTime;
+			fPlayerYPos += cosf(fPlayerAngle) * 5.0f * fElapsedTime;
+
+			if (map[(int)fPlayerYPos * nMapWidth + (int)fPlayerXPos] == '#') {
+				fPlayerXPos -= sinf(fPlayerAngle) * 5.0f * fElapsedTime;
+				fPlayerYPos -= cosf(fPlayerAngle) * 5.0f * fElapsedTime;
+			}
 		}
 
 		if (GetAsyncKeyState((unsigned short)'S') & 0x8000) {
-			fPlayerXPos -= sinf(fPlayerAngle) * 2.5f * fElapsedTime;
-			fPlayerYPos -= cosf(fPlayerAngle) * 2.5f * fElapsedTime;
+			fPlayerXPos -= sinf(fPlayerAngle) * 5.0f * fElapsedTime;
+			fPlayerYPos -= cosf(fPlayerAngle) * 5.0f * fElapsedTime;
+
+			if (map[(int)fPlayerYPos * nMapWidth + (int)fPlayerXPos] == '#') {
+				fPlayerXPos += sinf(fPlayerAngle) * 5.0f * fElapsedTime;
+				fPlayerYPos += cosf(fPlayerAngle) * 5.0f * fElapsedTime;
+			}
 		}
 
 
