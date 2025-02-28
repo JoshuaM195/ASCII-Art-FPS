@@ -43,22 +43,6 @@ This raycasting engine traces rays from the player's position to detect walls an
 - Frame Rendering - Uses a console screen buffer to display ASCII graphics.
 - Player Physics - Moves using trigonometric functions (sinf & cosf).
 
-## 🎮 Customize Your World!
-Want to change the map?
-Edit this section in main.cpp:
-
-wstring map;
-map += L"################";
-map += L"#..............#";
-map += L"#..............#";
-map += L"#..........#...#";
-map += L"#..........#...#";
-map += L"#......#########";
-map += L"#..............#";
-map += L"################";
-
-Replace # with walls and . with open space to create custom levels! 🏗️
-
 ## 💡 Future Improvements
 - 🚀 Add sprite rendering (for enemies & objects).
 - 🔊 Implement sound effects.
